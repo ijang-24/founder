@@ -1,84 +1,59 @@
-<%- include('partials/head', { title: 'FOUNDER - Shop', page: 'shop' }) %>
+﻿<%- include('partials/head') %>
 
-<main class="pt-20">
+    <!-- Header -->
+    <section class="py-10 bg-white border-b border-gray-100">
+      <div class="max-w-7xl mx-auto px-6">
+        <h1 class="font-bold text-3xl text-gray-900 mb-6">Shop</h1>
 
-  <!-- Search and Filters Bar -->
-  <section class="mb-8">
-    <div class="max-w-7xl mx-auto px-6">
-      <div class="flex flex-col sm:flex-row gap-4 mb-4">
-        <div class="flex-1">
-          <div class="relative">
-            <svg class="w-5 h-5 text-gray-500 absolute left-3 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <circle cx="11" cy="11" r="8"></circle>
-              <path d="m21 21-4.3-4.3"></path>
-            </svg>
-            <input
-              type="text"
-              placeholder="Cari produk atau kategori..."
-              id="search-input"
-              class="pl-10 pr-4 py-2 px-3 text-sm text-[1E1E1E] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[22562A] focus:border-transparent"
-              />
-          </div>
-        </div>
+        <!-- Filters -->
+        <form method="GET" action="/shop" class="flex flex-col sm:flex-row gap-3">
+          <input type="text" name="search" placeholder="Cari produk..."
+            value="<%= typeof search !== 'undefined' ? search : '' %>"
+            class="flex-1 border border-gray-300 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#22562A]" />
 
-        <div class="flex items-center gap-2">
-          <select id="category-filter" class="rounded-lg border border-gray-300 px-4 py-2 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-[22562A]">
-            <option value="all">Semua</option>
-            <option value="T-Shirt">T-Shirt</option>
-            <option value="Hoodie">Hoodie</option>
-            <option value="Pants">Pants</option>
-            <option value="Shorts Pants">Shorts Pants</option>
-            <option value="Cardigan">Cardigan</option>
-            <option value="Polo Shirt">Polo Shirt</option>
+          <select name="category"
+            class="border border-gray-300 rounded-lg px-4 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-[#22562A]">
+            <option value="all" <%= (typeof selectedCategory === 'undefined' || selectedCategory === 'all') ? 'selected' : '' %>>Semua Kategori</option>
+            <% if (typeof categories !== 'undefined' && categories.length > 0) { %>
+              <% categories.forEach(cat => { %>
+                <option value="<%= cat.id %>" <%= selectedCategory == cat.id ? 'selected' : '' %>><%= cat.name %></option>
+              <% }) %>
+            <% } %>
           </select>
-        </select>
-        </div>
+
+          <button type="submit"
+            class="bg-[#22562A] text-white px-6 py-2 rounded-lg text-sm font-medium hover:bg-green-800 transition-colors">
+            Cari
+          </button>
+        </form>
       </div>
+    </section>
 
-      <div class="flex gap-2">
-        <button id="sort-newest" class="rounded-lg bg-[22562A] text-white px-4 py-2 text-sm font-medium hover:bg-[2D6B35] transition-colors">Baru</button>
-        <button id="sort-price-low" class="rounded-lg bg-white text-[1E1E1E] px-4 py-2 text-sm border border-gray-300 hover:bg-[F7F5EB] transition-colors">Harga Rendah</button>
+    <!-- Products Grid -->
+    <section class="py-10">
+      <div class="max-w-7xl mx-auto px-6">
+        <% if (typeof products !== 'undefined' && products.length > 0) { %>
+          <p class="text-sm text-gray-500 mb-6"><%= products.length %> produk ditemukan</p>
+          <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            <% products.forEach(product => { %>
+              <a href="/product/<%= product.slug %>" class="group">
+                <div class="bg-gray-50 rounded-xl overflow-hidden mb-3 aspect-[3/4]">
+                  <img src="<%= product.image_url || 'https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=400' %>"
+                    alt="<%= product.name %>"
+                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+                </div>
+                <h3 class="font-medium text-gray-900 text-sm mb-1 truncate"><%= product.name %></h3>
+                <p class="text-[#22562A] font-semibold text-sm">Rp <%= product.price ? product.price.toLocaleString('id-ID') : '-' %></p>
+              </a>
+            <% }) %>
+          </div>
+        <% } else { %>
+          <div class="text-center py-20">
+            <p class="text-gray-400 text-lg mb-4">Produk tidak ditemukan</p>
+            <a href="/shop" class="text-[#22562A] font-medium hover:underline">Reset filter</a>
+          </div>
+        <% } %>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- Products Grid -->
-  <section class="max-w-7xl mx-auto px-6">
-    <div id="products-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-      <!-- Products will be rendered by EJS -->
-    </div>
-  </section>
-</main>
-
-<%- include('partials/footer', { page: 'shop' }) %>
-
-<script>
-  // Initialize products on page load
-  renderProducts('all');
-
-  // Category filter
-  document.getElementById('category-filter').addEventListener('change', (e) => {
-    renderProducts(e.target.value);
-  });
-
-  // Sort buttons
-  document.getElementById('sort-newest').addEventListener('click', () => renderProducts('all', 'newest'));
-  document.getElementById('sort-price-low').addEventListener('click', () => renderProducts('all', 'price-low'));
-
-  function renderProducts(category, sort = 'all') {
-    // Build query string
-    const params = new URLSearchParams();
-    params.append('category', category);
-    params.append('sort', sort);
-    
-    // Get search value from input
-    const searchInput = document.getElementById('search-input');
-    if (searchInput.value) {
-      params.append('search', searchInput.value);
-    }
-
-    // Since we're rendering server-side, just reload with new params
-    // For now, show initial products and let the user know filters work server-side
-    alert('Filter diterapkan server-side. Silakan reload halaman untuk melihat hasil.');
-  }
-</script>
+<%- include('partials/footer') %>

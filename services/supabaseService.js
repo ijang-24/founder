@@ -1,81 +1,35 @@
-const { createClient } = require('@supabase/supabase-js')
+const { supabase } = require('../config/supabase');
 
-const supabaseUrl = process.env.SUPABASE_URL
-const supabaseAnonKey = process.env.SUPABASE_ANON_KEY
-
-let supabase = null
-let isConfigured = false
-
-if (supabaseUrl && supabaseAnonKey) {
-  supabase = createClient(supabaseUrl, supabaseAnonKey)
-  isConfigured = true
-}
-
-async function withErrorHandling(promise) {
-  try {
-    const result = await promise
-    return { success: true, data: result }
-  } catch (error) {
-    console.error('Supabase query error:', error.message)
-    return { success: false, data: [] }
-  }
-}
-
+// Helper to fetch categories
 async function getCategories() {
-  if (!isConfigured) return []
-  const { data, error } = await supabase.from('categories').select('*')
-  if (error) return []
-  return data || []
+  if (!supabase) return [];
+  const { data, error } = await supabase.from('categories').select('*');
+  if (error) throw error;
+  return data;
 }
 
-async function getProducts(filters = {}) {
-  if (!isConfigured) return []
-  let query = supabase.from('products').select(`
-    *,
-    categories (*)
-  `)
-
-  if (filters.category) {
-    query = query.eq('category_id', filters.category)
-  }
-
-  if (filters.featured !== undefined) {
-    query = query.eq('featured', filters.featured)
-  }
-
-  if (filters.limit) {
-    query = query.limit(filters.limit)
-  }
-
-  const { data, error } = await query.order('created_at', { ascending: false })
-  if (error) return []
-  return data || []
+// Helper to fetch products with optional filters
+async function getProducts({ limit = 12, offset = 0, categoryId, search, featured } = {}) {
+  if (!supabase) return [];
+  let query = supabase.from('products').select('*');
+  if (categoryId) query = query.eq('category_id', categoryId);
+  if (search) query = query.ilike('name', `%${search}%`);
+  if (featured) query = query.eq('featured', true);
+  const { data, error } = await query.range(offset, offset + limit - 1);
+  if (error) throw error;
+  return data;
 }
 
+// Helper to fetch single product by slug
 async function getProductBySlug(slug) {
-  if (!isConfigured) return null
-  const { data, error } = await supabase.from('products').select(`
-    *,
-    categories (*)
-  `).eq('slug', slug).single()
-  if (error) return null
-  return data || null
+  if (!supabase) return null;
+  const { data, error } = await supabase
+    .from('products')
+    .select('*')
+    .eq('slug', slug)
+    .single();
+  if (error) return null;
+  return data;
 }
 
-async function getProductsByCategory(categoryId) {
-  if (!isConfigured) return []
-  const { data, error } = await supabase.from('products').select(`
-    *,
-    categories (*)
-  `).eq('category_id', categoryId).order('created_at', { ascending: false })
-  if (error) return []
-  return data || []
-}
-
-module.exports = {
-  getCategories,
-  getProducts,
-  getProductBySlug,
-  getProductsByCategory,
-  isConfigured
-}
+module.exports = { getCategories, getProducts, getProductBySlug };

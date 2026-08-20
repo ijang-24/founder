@@ -1,56 +1,49 @@
-const router = require('express').Router()
-const { getCategories, getProducts, getProductsByCategory } = require('../services/supabaseService')
+const router = require('express').Router();
+const { getCategories, getProducts, getProductBySlug } = require('../services/supabaseService');
 
-// Shop page - semua produk dengan filter
+// Shop page – list products with optional filters (category, search)
 router.get('/', async (req, res) => {
+  const { category, search } = req.query;
   try {
-    const categoryId = req.query.category || ''
-    const search = req.query.search || ''
-
-    let products
-    let selectedCategory = ''
-
-    if (categoryId) {
-      selectedCategory = categoryId
-      products = await getProductsByCategory(categoryId)
-    } else {
-      products = await getProducts({ limit: 12 })
-      selectedCategory = 'all'
-    }
-
-    const categories = await getCategories()
-
-    const title = 'FOUNDER - Shop'
-    res.render('shop', { title, products, categories, selectedCategory, search })
-  } catch (error) {
-    console.error('Shop error:', error)
-    // Even if DB fails, render the page with empty data
-    const categories = []
+    const categories = await getCategories();
+    const products = await getProducts({
+      limit: 24,
+      categoryId: category && category !== 'all' ? parseInt(category, 10) : undefined,
+      search: search || undefined,
+    });
+    const title = 'FOUNDER – Shop';
     res.render('shop', {
-      title: 'FOUNDER - Shop',
-      products: [],
+      title,
+      products,
       categories,
+      selectedCategory: category || 'all',
+      search: search || '',
+    });
+  } catch (error) {
+    console.error('Shop error:', error);
+    res.render('shop', {
+      title: 'FOUNDER – Shop',
+      products: [],
+      categories: [],
       selectedCategory: 'all',
-      search: ''
-    })
+      search: '',
+    });
   }
-})
+});
 
-// Product detail page
+// Product detail page – /product/:slug
 router.get('/product/:slug', async (req, res) => {
   try {
-    const product = await getProductBySlug(req.params.slug)
-
+    const product = await getProductBySlug(req.params.slug);
     if (!product) {
-      return res.status(404).render('error', { status: 404, message: 'Produk tidak ditemukan' })
+      return res.status(404).render('error', { status: 404, message: 'Produk tidak ditemukan' });
     }
-
-    const title = `FOUNDER - ${product.name}`
-    res.render('product-detail', { title, product })
-  } catch (error) {
-    console.error('Product detail error:', error)
-    res.status(500).render('error', { status: 500, message: 'Gagal memuat detail produk' })
+    const title = `FOUNDER - ${product.name}`;
+    res.render('product', { title, product });
+  } catch (err) {
+    console.error('Product detail error:', err);
+    res.status(500).render('error', { status: 500, message: 'Gagal memuat detail produk' });
   }
-})
+});
 
-module.exports = router
+module.exports = router;

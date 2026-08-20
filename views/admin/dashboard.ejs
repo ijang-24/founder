@@ -1,0 +1,48 @@
+﻿<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= title %></title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config={theme:{extend:{colors:{primary:'#22562A',secondary:'#C2DCA6',cream:'#F7F5EB'}}}}</script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>body{font-family:'Plus Jakarta Sans',sans-serif}</style>
+</head>
+<body class="bg-gray-100 min-h-screen">
+  <nav class="bg-[#22562A] text-white px-6 py-4 flex items-center justify-between shadow">
+    <span class="font-bold text-xl tracking-wider">FOUNDER Admin</span>
+    <div class="flex items-center gap-4 text-sm">
+      <span><%= user && user.email %></span>
+      <form action="/auth/logout" method="POST" class="inline">
+        <button type="submit" class="bg-white text-[#22562A] px-3 py-1 rounded font-semibold hover:bg-gray-100">Keluar</button>
+      </form>
+    </div>
+  </nav>
+  <div class="max-w-6xl mx-auto px-6 py-10">
+    <h1 class="text-2xl font-bold text-gray-900 mb-8">Dashboard Admin</h1>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+      <div class="bg-white rounded-xl shadow-sm p-6">
+        <p class="text-sm text-gray-500 mb-1">Total Produk</p>
+        <p class="text-3xl font-bold text-[#22562A]">-</p>
+      </div>
+      <div class="bg-white rounded-xl shadow-sm p-6">
+        <p class="text-sm text-gray-500 mb-1">Total Pesanan</p>
+        <p class="text-3xl font-bold text-[#22562A]">-</p>
+      </div>
+      <div class="bg-white rounded-xl shadow-sm p-6">
+        <p class="text-sm text-gray-500 mb-1">Pendapatan</p>
+        <p class="text-3xl font-bold text-[#22562A]">-</p>
+      </div>
+    </div>
+    <div class="bg-white rounded-xl shadow-sm p-6">
+      <h2 class="font-semibold text-gray-800 mb-4">Menu Cepat</h2>
+      <div class="flex flex-wrap gap-3">
+        <a href="/admin/products" class="bg-[#22562A] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-green-800">Kelola Produk</a>
+        <a href="/admin/orders" class="bg-[#22562A] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-green-800">Kelola Pesanan</a>
+        <a href="/admin/categories" class="bg-[#22562A] text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-green-800">Kelola Kategori</a>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

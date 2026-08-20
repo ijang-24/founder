@@ -1,23 +1,25 @@
 {
   "name": "founder-store",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Simple fashion e‑commerce built with Node.js, Express, EJS, Supabase",
+  "main": "app.js",
   "scripts": {
     "dev": "nodemon app.js",
-    "start": "node app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node app.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
   "dependencies": {
-    "@supabase/supabase-js": "^2.112.3",
-    "dotenv": "^17.4.2",
-    "ejs": "^6.0.1",
-    "express": "^5.2.1",
+    "dotenv": "^16.4.5",
+    "ejs": "^3.1.10",
+    "express": "^4.21.0",
     "express-session": "^1.19.0",
-    "nodemon": "^3.1.14"
+    "@supabase/supabase-js": "^2.45.2",
+    "method-override": "^3.0.0",
+    "uuid": "^10.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.4"
   }
 }

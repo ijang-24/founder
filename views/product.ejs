@@ -1,0 +1,103 @@
+﻿<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= typeof title !== 'undefined' ? title : 'Produk - FOUNDER' %></title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config={theme:{extend:{colors:{primary:'#22562A',secondary:'#C2DCA6',cream:'#F7F5EB'}}}}</script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>body{font-family:'Plus Jakarta Sans',sans-serif}</style>
+</head>
+<body class="bg-cream">
+  <!-- Navbar -->
+  <nav class="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur border-b border-gray-200">
+    <div class="max-w-7xl mx-auto px-6 flex items-center justify-between h-16">
+      <a href="/" class="font-bold text-xl tracking-wider">FOUNDER</a>
+      <div class="hidden md:flex items-center gap-6 text-sm">
+        <a href="/" class="hover:text-green-800">Home</a>
+        <a href="/shop" class="hover:text-green-800">Shop</a>
+      </div>
+      <a href="/cart" class="relative">
+        <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
+        </svg>
+        <% if (cartCount > 0) { %>
+          <span class="absolute -top-1 -right-1 w-4 h-4 bg-[#22562A] text-white text-xs rounded-full flex items-center justify-center"><%= cartCount %></span>
+        <% } %>
+      </a>
+    </div>
+  </nav>
+
+  <main class="pt-20 pb-16 max-w-5xl mx-auto px-6">
+    <nav class="text-sm text-gray-500 mb-6">
+      <a href="/" class="hover:text-gray-900">Home</a> /
+      <a href="/shop" class="hover:text-gray-900">Shop</a> /
+      <span class="text-gray-900"><%= product.name %></span>
+    </nav>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+      <!-- Product Image -->
+      <div class="bg-white rounded-2xl overflow-hidden shadow-sm">
+        <img src="<%= product.image_url || 'https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=600' %>"
+          alt="<%= product.name %>"
+          class="w-full h-[480px] object-cover" />
+      </div>
+      <!-- Product Info -->
+      <div class="flex flex-col justify-start pt-2">
+        <h1 class="text-2xl font-bold text-gray-900 mb-2"><%= product.name %></h1>
+        <p class="text-2xl font-semibold text-[#22562A] mb-4">Rp <%= product.price ? product.price.toLocaleString('id-ID') : '0' %></p>
+        <p class="text-gray-600 text-sm mb-6 leading-relaxed"><%= product.description || 'Produk berkualitas dari FOUNDER.' %></p>
+
+        <!-- Size selector -->
+        <% const sizes = ['S','M','L','XL','XXL']; %>
+        <div class="mb-6">
+          <p class="text-sm font-medium text-gray-700 mb-2">Ukuran</p>
+          <div class="flex gap-2" id="size-selector">
+            <% sizes.forEach(s => { %>
+              <button onclick="selectSize(this, '<%= s %>')"
+                class="size-btn px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium hover:border-[#22562A] hover:text-[#22562A] transition-colors">
+                <%= s %>
+              </button>
+            <% }) %>
+          </div>
+        </div>
+
+        <!-- Add to cart -->
+        <button id="add-to-cart" onclick="addToCart()"
+          class="w-full bg-[#22562A] text-white rounded-full py-3 font-semibold hover:bg-green-800 transition-colors">
+          Tambah ke Keranjang
+        </button>
+        <p id="size-warning" class="text-red-500 text-xs mt-2 hidden">Pilih ukuran dulu ya!</p>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    let selectedSize = '';
+    function selectSize(btn, size) {
+      document.querySelectorAll('.size-btn').forEach(b => b.classList.remove('bg-[#22562A]','text-white','border-[#22562A]'));
+      btn.classList.add('bg-[#22562A]','text-white','border-[#22562A]');
+      selectedSize = size;
+      document.getElementById('size-warning').classList.add('hidden');
+    }
+    async function addToCart() {
+      if (!selectedSize) { document.getElementById('size-warning').classList.remove('hidden'); return; }
+      const res = await fetch('/cart/add', {
+        method:'POST', headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({
+          productId: '<%= product.id %>',
+          name: '<%= product.name.replace(/'/g,"\'") %>',
+          price: <%= product.price || 0 %>,
+          size: selectedSize,
+          image: '<%= product.image_url || "" %>'
+        })
+      });
+      const data = await res.json();
+      if (data.success) {
+        document.getElementById('add-to-cart').textContent = '✓ Ditambahkan!';
+        setTimeout(() => document.getElementById('add-to-cart').textContent = 'Tambah ke Keranjang', 2000);
+      }
+    }
+  </script>
+</body>
+</html>

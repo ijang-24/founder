@@ -1,87 +1,62 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>FOUNDER - Selamat Datang</title>
-
-  <!-- Tailwind CSS via CDN -->
+  <title>FOUNDER</title>
   <script src="https://cdn.tailwindcss.com"></script>
-
   <script>
     tailwind.config = {
       theme: {
         extend: {
-          fontFamily: {
-            sans: ['"Plus Jakarta Sans"', 'Arial', 'sans-serif'],
-          },
+          fontFamily: { sans: ['"Plus Jakarta Sans"', 'Arial', 'sans-serif'] },
           colors: {
             primary: '#22562A',
             secondary: '#C2DCA6',
             cream: '#F7F5EB',
-            white: '#FFFFFF',
-            dark: '#1E1E1E',
-          },
-        },
-      },
+          }
+        }
+      }
     }
   </script>
-
-  <link
-    rel="preconnect"
-    href="https://fonts.googleapis.com" />
-  <link
-    rel="preconnect"
-    href="https://fonts.gstatic.com"
-    crossorigin="true" />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap"
-    rel="stylesheet" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+  </style>
 </head>
-<body class="bg-cream">
+<body class="bg-[#F7F5EB]">
 
   <!-- Navbar -->
-  <nav class="fixed top-0 left-0 right-0 z-50 bg-[rgba(247,243,234,0.9)] backdrop-blur border-b border-slate-200">
-    <div class="max-w-7xl mx-auto px-6 flex items-center justify-between h-20">
-      <a href="/" class="font-bold text-[1.25rem] tracking-wider">
-        FOUNDER
-      </a>
+  <nav class="fixed top-0 left-0 right-0 z-50 bg-[#F7F5EB]/90 backdrop-blur-sm border-b border-gray-200">
+    <div class="max-w-7xl mx-auto px-6 flex items-center justify-between h-16">
+      <a href="/" class="font-bold text-xl tracking-widest text-gray-900">FOUNDER</a>
 
-      <!-- Desktop Menu -->
-      <div class="hidden md:flex items-center gap-8">
-        <a href="/" class="hover:text-[1E1E1E] transition-colors">Home</a>
-        <a href="/shop" class="hover:text-[1E1E1E] transition-colors">Shop</a>
-        <a href="/category" class="hover:text-[1E1E1E] transition-colors">Category</a>
-        <a href="/about" class="hover:text-[1E1E1E] transition-colors">About</a>
+      <div class="hidden md:flex items-center gap-8 text-sm font-medium text-gray-700">
+        <a href="/" class="hover:text-gray-900 transition-colors">Home</a>
+        <a href="/shop" class="hover:text-gray-900 transition-colors">Shop</a>
       </div>
 
-      <!-- Right Side: Search + Cart -->
       <div class="flex items-center gap-4">
-        <div class="relative">
-          <svg class="w-5 h-5 text-gray-500 absolute left-3 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <circle cx="11" cy="11" r="8"></circle>
-            <path d="m21 21-4.3-4.3"></path>
+        <a href="/cart" class="relative">
+          <svg class="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" stroke-width="1.5" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/>
           </svg>
-          <input
-            type="text"
-            placeholder="Cari produk..."
-            class="pl-10 pr-4 py-2 px-3 text-sm text-[1E1E1E] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[22562A] focus:border-transparent"
-            />
-        </div>
-
-        <a href="/cart" class="relative flex items-center gap-2 hover:text-[1E1E1E] transition-colors">
-          <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <circle cx="9" cy="9" r="9"></circle>
-            <path d="m22 2-2.7-2.7c.33-.38.5-.87.5-1.41 0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2 0 1.1.33 2.1.5 2.7L3 9l7.9 7.9c.33.38.5.87.5 1.41 0 1.1-.5.9-1.5.5-1.1 0-1.1-.5-1.5-.5h-2z"></path>
-          </svg>
-          <span class="absolute top-0 right-0 w-4 h-4 bg-[22562A] rounded-full flex items-center justify-center text-xs font-bold white">
-            <span id="cart-count"><%= cartCount %></span>
-          </span>
+          <% if (typeof cartCount !== 'undefined' && cartCount > 0) { %>
+            <span class="absolute -top-1 -right-1 w-4 h-4 bg-[#22562A] text-white text-[10px] rounded-full flex items-center justify-center font-bold"><%= cartCount %></span>
+          <% } %>
         </a>
+        <% if (typeof user !== 'undefined' && user) { %>
+          <span class="text-sm text-gray-600"><%= user.email %></span>
+          <form action="/auth/logout" method="POST" class="inline">
+            <button type="submit" class="text-sm text-gray-500 hover:text-gray-900">Keluar</button>
+          </form>
+        <% } else { %>
+          <a href="/auth/login" class="text-sm font-medium text-[#22562A] hover:underline">Masuk</a>
+        <% } %>
       </div>
     </div>
   </nav>
 
-  <main class="pt-20">
-</body>
-</html>
+  <main class="pt-16">

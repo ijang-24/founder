@@ -1,6 +1,5 @@
 const router = require('express').Router()
 const supabase = require('../config/supabase').supabase
-const { getProfileByUserId } = require('../services/supabaseService')
 
 // View cart - using session cart
 router.get('/', (req, res) => {

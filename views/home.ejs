@@ -1,244 +1,79 @@
-<!DOCTYPE html>
-<html lang="id">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>FOUNDER - Selamat Datang</title>
-
-  <!-- Tailwind CSS via CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: {
-            sans: ['"Plus Jakarta Sans"', 'Arial', 'sans-serif'],
-          },
-          colors: {
-            primary: '#22562A',
-            secondary: '#C2DCA6',
-            cream: '#F7F5EB',
-            white: '#FFFFFF',
-            dark: '#1E1E1E',
-          },
-        },
-      },
-    }
-  </script>
-
-  <link
-    rel="preconnect"
-    href="https://fonts.googleapis.com" />
-  <link
-    rel="preconnect"
-    href="https://fonts.gstatic.com"
-    crossorigin="true" />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap"
-    rel="stylesheet" />
-</head>
-<body class="bg-cream">
-
-  <!-- Navbar -->
-  <nav class="fixed top-0 left-0 right-0 z-50 bg-[rgba(247,243,234,0.9)] backdrop-blur border-b border-slate-200">
-    <div class="max-w-7xl mx-auto px-6 flex items-center justify-between h-20">
-      <a href="/" class="font-bold text-[1.25rem] tracking-wider">
-        FOUNDER
-      </a>
-
-      <!-- Desktop Menu -->
-      <div class="hidden md:flex items-center gap-8">
-        <a href="/" class="hover:text-[1E1E1E] transition-colors">Home</a>
-        <a href="/shop" class="hover:text-[1E1E1E] transition-colors">Shop</a>
-        <a href="/category" class="hover:text-[1E1E1E] transition-colors">Category</a>
-        <a href="/about" class="hover:text-[1E1E1E] transition-colors">About</a>
-      </div>
-
-      <!-- Right Side: Search + Cart -->
-      <div class="flex items-center gap-4">
-        <div class="relative">
-          <svg class="w-5 h-5 text-gray-500 absolute left-3 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <circle cx="11" cy="11" r="8"></circle>
-            <path d="m21 21-4.3-4.3"></path>
-          </svg>
-          <input
-            type="text"
-            placeholder="Cari produk..."
-            class="pl-10 pr-4 py-2 px-3 text-sm text-[1E1E1E] placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-[22562A] focus:border-transparent"
-            />
-        </div>
-
-        <a href="/cart" class="relative flex items-center gap-2 hover:text-[1E1E1E] transition-colors">
-          <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <circle cx="9" cy="9" r="9"></circle>
-            <path d="m22 2-2.7-2.7c.33-.38.5-.87.5-1.41 0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2 0 1.1.33 2.1.5 2.7L3 9l7.9 7.9c.33.38.5.87.5 1.41 0 1.1-.5.9-1.5.5-1.1 0-1.1-.5-1.5-.5h-2z"></path>
-          </svg>
-          <span class="absolute top-0 right-0 w-4 h-4 bg-[22562A] rounded-full flex items-center justify-center text-xs font-bold white">
-            <span id="cart-count"><%= cartCount %></span>
-          </span>
-        </a>
-      </div>
-    </div>
-  </nav>
-
-  <main class="pt-20">
+﻿<%- include('partials/head') %>
 
     <!-- Hero Banner -->
-    <section class="relative min-h-[600px] bg-cover bg-center overflow-hidden mb-12"
-      style="background-image: url('https://images.unsplash.com/photo-1523381210434-271e8be1f52b?auto=format&fit=crop&w=1200')" />
-    <div class="absolute inset-0 bg-[rgba(34,86,42,0.6)]"></div>
-    <div class="relative z-10 min-h-screen flex items-center px-6">
-      <div class="max-w-2xl">
-        <h1 class="font-bold text-5xl md:text-6xl lg:text-7xl text-[white] tracking-wider mb-6">
-          FOUNDER
-        </h1>
-        <p class="text-[1.25mb] text-[white]/80 mb-8 max-w-xl">
-          Everyday pieces, made for you.
-        </p>
-        <a href="/shop"
-          class="bg-[22562A] text-white px-8 py-3 rounded-full font-medium text-lg hover:bg-[2D6B35] transition-colors shadow-sm">
-          SHOP NOW
-        </a>
+    <section class="relative h-[85vh] bg-cover bg-center overflow-hidden"
+      style="background-image: url('https://images.unsplash.com/photo-1523381210434-271e8be1f52b?auto=format&fit=crop&w=1400&q=80')">
+      <div class="absolute inset-0 bg-[#22562A]/60"></div>
+      <div class="relative z-10 h-full flex items-center px-6 max-w-7xl mx-auto">
+        <div>
+          <h1 class="font-bold text-6xl md:text-7xl text-white tracking-widest mb-4">FOUNDER</h1>
+          <p class="text-xl text-white/80 mb-8">Everyday pieces, made for you.</p>
+          <a href="/shop" class="bg-white text-[#22562A] px-8 py-3 rounded-full font-semibold hover:bg-gray-100 transition-colors">
+            SHOP NOW
+          </a>
+        </div>
       </div>
-    </div>
+    </section>
 
-    <!-- Category Cards Section -->
-    <section class="mb-12">
+    <!-- Categories -->
+    <section class="py-16">
       <div class="max-w-7xl mx-auto px-6">
-        <h2 class="font-bold text-3xl text-[1E1E1E] mb-8">Kategori</h2>
+        <h2 class="font-bold text-3xl text-gray-900 mb-8">Kategori</h2>
         <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
-          <div class="group border rounded-lg p-6 hover:shadow-sm transition-shadow">
-            <img
-              src="https://images.unsplash.com/photo-1560158283-885d1e9d8be7?auto=format&fit=crop&w=400"
-              alt="Kategori T-Shirt"
-              class="w-full h-48 object-cover rounded-t mb-4 group-hover:opacity-80 transition-opacity"
-            />
-            <div>
-              <h3 class="font-medium text-[1E1E1E] mb-2">T-Shirt</h3>
-              <p class="text-sm text-gray-500">Lihat Produk</a>
-            </p>
-            </div>
-          </div>
-          <div class="group border rounded-lg p-6 hover:shadow-sm transition-shadow">
-            <img
-              src="https://images.unsplash.com/photo-1556873488594-ff3d5aba6e0f?auto=format&fit=crop&w=400"
-              alt="Kategori Hoodie"
-              class="w-full h-48 object-cover rounded-t mb-4 group-hover:opacity-80 transition-opacity"
-            />
-            <div>
-              <h3 class="font-medium text-[1E1E1E] mb-2">Hoodie</h3>
-              <p class="text-sm text-gray-500">Lihat Produk</a>
-            </p>
-            </div>
-          </div>
-          <div class="group border rounded-lg p-6 hover:shadow-sm transition-shadow">
-            <img
-              src="https://images.unsplash.com/photo-1566163612485-60bb1e00241c?auto=format&fit=crop&w=400"
-              alt="Kategori Pants"
-              class="w-full h-48 object-cover rounded-t mb-4 group-hover:opacity-80 transition-opacity"
-            />
-            <div>
-              <h3 class="font-medium text-[1E1E1E] mb-2">Pants</h3>
-              <p class="text-sm text-gray-500">Lihat Produk</a>
-            </p>
-            </div>
-          </div>
+          <% if (categories && categories.length > 0) { %>
+            <% categories.forEach(cat => { %>
+              <a href="/shop?category=<%= cat.id %>" class="group relative overflow-hidden rounded-xl bg-gray-100 aspect-[4/3]">
+                <div class="absolute inset-0 bg-[#22562A]/40 group-hover:bg-[#22562A]/60 transition-all flex items-end p-4">
+                  <span class="text-white font-semibold text-lg"><%= cat.name %></span>
+                </div>
+              </a>
+            <% }) %>
+          <% } else { %>
+            <% ['T-Shirt','Hoodie','Pants'].forEach(name => { %>
+              <a href="/shop" class="group relative overflow-hidden rounded-xl aspect-[4/3]">
+                <img src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=400&q=60" alt="<%= name %>"
+                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+                <div class="absolute inset-0 bg-[#22562A]/40 group-hover:bg-[#22562A]/60 transition-all flex items-end p-4">
+                  <span class="text-white font-semibold text-lg"><%= name %></span>
+                </div>
+              </a>
+            <% }) %>
+          <% } %>
         </div>
       </div>
     </section>
 
-    <!-- Featured Products Section -->
-    <section class="mb-12">
+    <!-- Featured Products -->
+    <section class="py-16 bg-white">
       <div class="max-w-7xl mx-auto px-6">
-        <h2 class="font-bold text-3xl text-[1E1E1E] mb-6">Produk Unggulan</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          <!-- Products will be rendered by JavaScript since DB is not configured -->
-          <div class="border rounded-lg p-6 hover:shadow-sm transition-shadow text-center">
-            <h3 class="font-medium text-[1E1E1E] mb-2">Produk akan segera hadir</h3>
-            <p class="text-sm text-gray-500">Selamat datang di FOUNDER</p>
-          </div>
-          <div class="border rounded-lg p-6 hover:shadow-sm transition-shadow text-center">
-            <h3 class="font-medium text-[1E1E1E] mb-2">Produk akan segera hadir</h3>
-            <p class="text-sm text-gray-500">Selamat datang di FOUNDER</p>
-          </div>
-          <div class="border rounded-lg p-6 hover:shadow-sm transition-shadow text-center">
-            <h3 class="font-medium text-[1E1E1E] mb-2">Produk akan segera hadir</h3>
-            <p class="text-sm text-gray-500">Selamat datang di FOUNDER</p>
-          </div>
-          <div class="border rounded-lg p-6 hover:shadow-sm transition-shadow text-center">
-            <h3 class="font-medium text-[1E1E1E] mb-2">Produk akan segera hadir</h3>
-            <p class="text-sm text-gray-500">Selamat datang di FOUNDER</p>
-          </div>
-          <div class="border rounded-lg p-6 hover:shadow-sm transition-shadow text-center">
-            <h3 class="font-medium text-[1E1E1E] mb-2">Produk akan segera hadir</h3>
-            <p class="text-sm text-gray-500">Selamat datang di FOUNDER</p>
-          </div>
-          <div class="border rounded-lg p-6 hover:shadow-sm transition-shadow text-center">
-            <h3 class="font-medium text-[1E1E1E] mb-2">Produk akan segera hadir</h3>
-            <p class="text-sm text-gray-500">Selamat datang di FOUNDER</p>
-          </div>
-          <div class="border rounded-lg p-6 hover:shadow-sm transition-shadow text-center">
-            <h3 class="font-medium text-[1E1E1E] mb-2">Produk akan segera hadir</h3>
-            <p class="text-sm text-gray-500">Selamat datang di FOUNDER</p>
-          </div>
-          <div class="border rounded-lg p-6 hover:shadow-sm transition-shadow text-center">
-            <h3 class="font-medium text-[1E1E1E] mb-2">Produk akan segera hadir</h3>
-            <p class="text-sm text-gray-500">Selamat datang di FOUNDER</p>
-          </div>
+        <div class="flex items-center justify-between mb-8">
+          <h2 class="font-bold text-3xl text-gray-900">Produk Unggulan</h2>
+          <a href="/shop" class="text-[#22562A] font-medium text-sm hover:underline">Lihat Semua →</a>
+        </div>
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          <% if (featured && featured.length > 0) { %>
+            <% featured.forEach(product => { %>
+              <a href="/product/<%= product.slug %>" class="group">
+                <div class="bg-gray-50 rounded-xl overflow-hidden mb-3 aspect-[3/4]">
+                  <img src="<%= product.image_url || 'https://images.unsplash.com/photo-1523381210434-271e8be1f52b?w=400' %>"
+                    alt="<%= product.name %>"
+                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+                </div>
+                <h3 class="font-medium text-gray-900 text-sm mb-1"><%= product.name %></h3>
+                <p class="text-[#22562A] font-semibold text-sm">Rp <%= product.price ? product.price.toLocaleString('id-ID') : '-' %></p>
+              </a>
+            <% }) %>
+          <% } else { %>
+            <% for (let i = 0; i < 4; i++) { %>
+              <div class="group">
+                <div class="bg-gray-100 rounded-xl overflow-hidden mb-3 aspect-[3/4] animate-pulse"></div>
+                <div class="h-4 bg-gray-100 rounded mb-1"></div>
+                <div class="h-4 bg-gray-100 rounded w-2/3"></div>
+              </div>
+            <% } %>
+          <% } %>
         </div>
       </div>
     </section>
-  </main>
 
-  <footer class="bg-[1E1E1E] text-white py-12">
-    <div class="max-w-7xl mx-auto px-6">
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
-        <div>
-          <h3 class="font-bold text-[1.5rem] mb-4">FOUNDER</h3>
-          <p class="text-sm text-gray-400">Brand fashion minimalis modern untuk setiap hari.</p>
-        </div>
-        <div>
-          <h4 class="font-semibold text-[0.875rem] mb-4">Shop</h4>
-          <ul class="space-y-2 text-sm text-gray-300">
-            <li><a href="#" class="hover:text-white transition-colors">T-Shirt</a></li>
-            <li><a href="#" class="hover:text-white transition-colors">Hoodie</a></li>
-            <li><a href="#" class="hover:text-white transition-colors">Pants</a></li>
-            <li><a href="#" class="hover:text-white transition-colors">Shorts Pants</a></li>
-          </ul>
-        </div>
-        <div>
-          <h4 class="font-semibold text-[0.875rem] mb-4">Information</h4>
-          <ul class="space-y-2 text-sm text-gray-300">
-            <li><a href="#" class="hover:text-white transition-colors">About</a></li>
-            <li><a href="#" class="hover:text-white transition-colors">Contact</a></li>
-            <li><a href="#" class="hover:text-white transition-colors">FAQ</a></li>
-          </ul>
-        </div>
-        <div>
-          <h4 class="font-semibold text-[0.875rem] mb-4">Marketplace</h4>
-          <ul class="space-y-2 text-sm text-gray-300">
-            <li><a href="#" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors">Shopee</a></li>
-            <li><a href="#" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors">Tokopedia</a></li>
-            <li><a href="#" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors">Lazada</a></li>
-          </ul>
-        </div>
-      </div>
-      <div class="pt-8 border-t border-gray-200 text-center text-xs text-gray-400">
-        &copy; <%= new Date().getFullYear() %> FOUNDER. Dibuat dengan ikhlas.
-      </div>
-    </div>
-  </footer>
-
-  <script>
-    // Initialize cart count on page load
-    document.addEventListener('DOMContentLoaded', () => {
-      const cartCountElements = document.querySelectorAll('#cart-count');
-      cartCountElements.forEach(el => {
-        const initialCount = parseInt(el.getAttribute('data-count') || '0');
-        el.textContent = initialCount;
-      });
-    });
-  </script>
-</body>
-</html>
+<%- include('partials/footer') %>

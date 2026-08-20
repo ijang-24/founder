@@ -1,0 +1,40 @@
+﻿<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= title %></title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config={theme:{extend:{colors:{primary:'#22562A',secondary:'#C2DCA6',cream:'#F7F5EB'}}}}</script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>body{font-family:'Plus Jakarta Sans',sans-serif}</style>
+</head>
+<body class="bg-cream min-h-screen flex items-center justify-center px-4">
+  <div class="w-full max-w-md bg-white rounded-2xl shadow-sm p-8">
+    <a href="/" class="block text-center font-bold text-2xl tracking-wider mb-8 text-gray-900">FOUNDER</a>
+    <h1 class="text-xl font-semibold text-gray-900 mb-6 text-center">Masuk ke akun kamu</h1>
+    <% if (typeof error !== 'undefined' && error) { %>
+      <div class="bg-red-50 border border-red-200 text-red-700 rounded-lg px-4 py-3 mb-4 text-sm"><%= error %></div>
+    <% } %>
+    <form action="/auth/login" method="POST" class="space-y-4">
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+        <input type="email" name="email" required placeholder="email@kamu.com"
+          class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-700" />
+      </div>
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+        <input type="password" name="password" required placeholder="••••••••"
+          class="w-full border border-gray-300 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-green-700" />
+      </div>
+      <button type="submit"
+        class="w-full bg-[#22562A] text-white rounded-lg py-2.5 font-semibold text-sm hover:bg-green-800 transition-colors mt-2">
+        Masuk
+      </button>
+    </form>
+    <p class="text-center text-sm text-gray-500 mt-6">
+      Belum punya akun? <a href="/auth/register" class="text-[#22562A] font-semibold hover:underline">Daftar</a>
+    </p>
+  </div>
+</body>
+</html>
