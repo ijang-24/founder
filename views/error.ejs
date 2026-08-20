@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Error - FOUNDER</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'Arial', 'sans-serif'],
+          },
+          colors: {
+            primary: '#22562A',
+            secondary: '#C2DCA6',
+            cream: '#F7F5EB',
+            white: '#FFFFFF',
+            dark: '#1E1E1E',
+          },
+        },
+      },
+    }
+  </script>
+
+  <link
+    rel="preconnect"
+    href="https://fonts.googleapis.com" />
+  <link
+    rel="preconnect"
+    href="https://fonts.gstatic.com"
+    crossorigin="true" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap"
+    rel="stylesheet" />
+</head>
+<body class="bg-cream">
+
+  <main class="flex min-h-screen items-center justify-center py-20">
+    <div class="bg-white rounded-lg p-8 max-w-md w-full shadow">
+      <h1 class="font-bold text-3xl text-[1E1E1E] mb-4">404</h1>
+      <p class="text-gray-500 text-sm mb-6">Halaman yang Anda cari tidak ditemukan.</p>
+      <a href="/" class="bg-[22562A] text-white px-6 py-3 rounded-full font-medium hover:bg-[2D6B35] transition-colors">
+        Kembali ke Beranda
+      </a>
+    </div>
+  </main>
+
+  <footer class="mt-12 bg-[1E1E1E] text-white py-8">
+    <div class="max-w-7xl mx-auto px-6 text-center text-xs text-gray-400">
+      &copy; <%= new Date().getFullYear() %> FOUNDER.
+    </div>
+  </footer>
+</body>
+</html>
