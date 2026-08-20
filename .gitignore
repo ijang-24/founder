@@ -31,3 +31,5 @@ supabase/.temp/
 # Migration scripts (optional - keep if you want to track)
 # run-migration.js
 # supabase-migration.sql
+.env
+.env
